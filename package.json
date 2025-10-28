@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@next/eslint-plugin-next": "^16.0.0",
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.0.1",
+    "lucide-react": "^0.548.0",
     "next": "16.0.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
