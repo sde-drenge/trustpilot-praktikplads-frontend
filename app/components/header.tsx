@@ -5,28 +5,25 @@ import { Bell } from 'lucide-react'
 
 export default function Header() {
   return (
-    <header className='flex fixed w-full top-0 left-0 z-50 items-center justify-between p-2.75 bg-gray-950 text-white '>  
+    <header className='fixed inset-x-0 top-0 z-50 bg-primary text-white'>  
+      <div className='flex items-center gap-6 px-6 py-2.75'>
+        <div className="min-w-24 flex items-center gap-2 cursor-pointer">
+          <span className="text-3xl font-bold text-accent">★</span>
+          <span className="text-3xl font-semibold">TP</span>
+        </div>
 
-      <div className="pl-36 gap-2 cursor-pointer">
-        <span className="text-3xl font-bold text-[#00B67A]">★</span>
-        <span className="text-3xl font-semibold text-white">TP</span>
+        <nav className="flex gap-6 font-medium items-center ml-auto">
+          <Link href="/" className="hover:text-accent transition">Skriv en anmeldelse</Link>
+          <Link href="/" className="hover:text-accent transition">Kategorier</Link>
+          <Link href="/notifications" className="hover:text-accent transition">
+            <Bell size={24} />
+          </Link>
+          <Link href="/" className="hover:text-accent transition">Log ind</Link>
+          <Button className="bg-accent hover:bg-accent/90 text-white px-4 py-3 rounded-full">
+            For virksomheder
+          </Button>
+        </nav>
       </div>
-
-     <nav className="flex gap-8 font-medium items-center pr-34">
-     <Link href="/">Skriv en anmeldelse</Link>
-     <Link href="/">Kategorier</Link>
-     <Link href="/">Blog</Link>
-     <Link href="/notifications" className="">
-     <Bell size={24} />
-     </Link>
-     <Link href="/">Log ind</Link>
-     <Button className="bg-[#799dfa] hover:bg-[#9ab4ff] text-black px-4 py-6 rounded-full">
-      For virksomheder
-     </Button>
-      </nav>
-     
-     
-   
     </header>
   )
 }
