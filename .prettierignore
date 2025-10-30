@@ -1,0 +1,17 @@
+# Output / build
+.next
+out
+build
+dist
+coverage
+node_modules
+
+# Env & lock files
+.env*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Misc
+*.min.js
+*.log
