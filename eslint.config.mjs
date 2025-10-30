@@ -1,7 +1,7 @@
-import eslintPluginNext from '@next/eslint-plugin-next';
-import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y';
-import pluginReactHooks from 'eslint-plugin-react-hooks';
-import typescriptEslint from 'typescript-eslint';
+import eslintPluginNext from '@next/eslint-plugin-next'
+import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y'
+import pluginReactHooks from 'eslint-plugin-react-hooks'
+import typescriptEslint from 'typescript-eslint'
 
 const eslintIgnore = [
   '.git/',
@@ -14,8 +14,8 @@ const eslintIgnore = [
   '.npm-only-allow',
   'test-results',
   '*.min.js',
-  "next-env.d.ts"
-];
+  'next-env.d.ts',
+]
 
 const config = typescriptEslint.config(
   {
@@ -60,6 +60,6 @@ const config = typescriptEslint.config(
       'node/prefer-global/process': 'off',
     },
   },
-);
+)
 
-export default config;
+export default config
