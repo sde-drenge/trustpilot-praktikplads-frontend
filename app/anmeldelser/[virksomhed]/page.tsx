@@ -1,7 +1,6 @@
 import React from "react"
 import Image from "next/image"
 
-import Header from "@/app/components/header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { reviews, schools } from "@/app/data/mock"
