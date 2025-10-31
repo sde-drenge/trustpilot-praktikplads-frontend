@@ -9,7 +9,7 @@ export default function Page() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold">Opret konto</h1>
-          <p className="mt-2 text-gray-600">Kom i gang med at anmelde</p>
+          <p className="mt-2 text-gray-600">Kom så i gang med at anmelde din fee' gris :))</p>
         </div>
 
         <form className="mt-8 space-y-6">

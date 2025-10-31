@@ -25,9 +25,7 @@
 
   "css.validate": false,
   "css.customData": [".vscode/css_custom_data.json"],
-  "tailwindCSS.experimental.classRegex": [
-    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ],
+  "tailwindCSS.experimental.classRegex": [["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]],
 
   "prettier.prettierPath": "./node_modules/prettier",
   "prettier.useEditorConfig": false

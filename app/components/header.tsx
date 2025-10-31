@@ -1,7 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Bell } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Header() {
   return (
@@ -13,16 +11,13 @@ export default function Header() {
         </div>
 
         <nav className="ml-auto flex items-center gap-6 font-medium">
-          <Link href="/" className="hover:text-accent transition">
+          <Link href="/anmeldelser" className="hover:text-accent transition">
             Skriv en anmeldelse
           </Link>
           <Link href="/" className="hover:text-accent transition">
             Kategorier
           </Link>
-          <Link href="/notifications" className="hover:text-accent transition">
-            <Bell size={24} />
-          </Link>
-          <Link href="/" className="hover:text-accent transition">
+          <Link href="/log-ind" className="hover:text-accent transition">
             Log ind
           </Link>
           <Button className="bg-accent hover:bg-accent/90 rounded-full px-4 py-3 text-white">

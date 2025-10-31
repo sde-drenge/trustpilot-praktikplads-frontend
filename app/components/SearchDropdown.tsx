@@ -4,7 +4,6 @@ import RatingStars from "@/app/components/reviews/RatingStars"
 import { schools } from "@/app/data/mock"
 import { Input } from "@/components/ui/input"
 import type { School } from "@/types"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 
@@ -107,17 +106,7 @@ export function SearchBox() {
                   className="w-full border-b px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-gray-50"
                 >
                   <div className="flex items-center gap-4">
-                    {school.logoUrl ? (
-                      <Image
-                        src={school.logoUrl}
-                        alt={school.name}
-                        width={48}
-                        height={48}
-                        className="shrink-0 rounded-md object-cover"
-                      />
-                    ) : (
-                      <div className="h-12 w-12 shrink-0 rounded-md bg-gray-200" />
-                    )}
+                    
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold text-gray-900">
                         {highlightMatch(school.name, query)}
