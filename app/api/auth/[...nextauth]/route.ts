@@ -11,6 +11,34 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        const backendLoginUrl = process.env.BACKEND_LOGIN_URL
+        if (backendLoginUrl && credentials?.email && credentials?.password) {
+          try {
+            const resp = await fetch(backendLoginUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: credentials.email, password: credentials.password }),
+            })
+            if (!resp.ok) return null
+            let data: unknown = null
+            try {
+              data = await resp.json()
+            } catch {
+              data = null
+            }
+            // Narrow common shapes { id,email,name } or { user: { id,email,name } }
+            const safe: Record<string, unknown> = (data && typeof data === 'object') ? (data as Record<string, unknown>) : {}
+            const nestedUser = (typeof safe.user === 'object' && safe.user !== null) ? (safe.user as Record<string, unknown>) : undefined
+            const id = String((safe.id as string | number | undefined) ?? (nestedUser?.id as string | number | undefined) ?? credentials.email)
+            const email = String((safe.email as string | undefined) ?? (nestedUser?.email as string | undefined) ?? credentials.email)
+            const name = String((safe.name as string | undefined) ?? (nestedUser?.name as string | undefined) ?? '')
+            return { id, email, name }
+          } catch {
+            // Fall back to mock if backend not reachable
+          }
+        }
+
+        // Mock fallback (in-memory)
         const user = users.find(
           (u) => u.email === credentials?.email && u.password === credentials?.password,
         )
