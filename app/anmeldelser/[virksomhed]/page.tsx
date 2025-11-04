@@ -1,15 +1,17 @@
+'use client'
 import { Star } from 'lucide-react'
+import { use } from 'react'
 
 import { reviews, schools } from '@/app/data/mock'
 import { Button } from '@/components/ui/button'
-import type { Review } from '@/types'
 
 type Props = {
-  params: { virksomhed: string }
+  params: Promise<{ virksomhed: string }>
 }
 
 export default function Page({ params }: Props) {
-  const school = schools.find((s) => s.slug === params.virksomhed)
+  const { virksomhed } = use(params)
+  const school = schools.find((s) => s.slug === virksomhed)
   const schoolReviews = reviews.filter((r) => r.schoolId === school?.id)
 
   if (!school) {
@@ -62,7 +64,7 @@ export default function Page({ params }: Props) {
           </div>
         ) : (
           <div className="space-y-4">
-            {schoolReviews.map((review: Review) => (
+            {schoolReviews.map((review) => (
               <div key={review.id} className="rounded-lg border p-6">
                 <div className="mb-3 flex items-start justify-between">
                   <div className="flex items-center gap-2">

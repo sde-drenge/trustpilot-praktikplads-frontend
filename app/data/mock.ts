@@ -1,5 +1,3 @@
-import { Review, School } from '@/types'
-
 export const schools: School[] = [
   {
     id: '1',
@@ -7,8 +5,6 @@ export const schools: School[] = [
     slug: 'norrebro-tekniske-laereplads',
     logoUrl: '/images/sample-logo.png',
     description: 'Fokus på software og devops.',
-    avgRating: 4.2,
-    reviewCount: 12,
   },
   {
     id: '2',
@@ -16,17 +12,13 @@ export const schools: School[] = [
     slug: 'aarhus-it-laereplads',
     logoUrl: '/images/sample-logo-2.png',
     description: 'Frontend, backend og moderne stacks.',
-    avgRating: 3.6,
-    reviewCount: 7,
   },
   {
     id: '3',
-    name: 'København Mekanik Værksted',
-    slug: 'kobenhavn-mekanik-vaerksted',
+    name: 'København Autoteknik',
+    slug: 'kobenhavn-autoteknik',
     logoUrl: '/images/sample-logo.png',
     description: 'Automotive mekanik og elektrisk vedligeholdelse.',
-    avgRating: 4.5,
-    reviewCount: 24,
   },
   {
     id: '4',
@@ -34,8 +26,48 @@ export const schools: School[] = [
     slug: 'odense-sundhedscenter',
     logoUrl: '/images/sample-logo-2.png',
     description: 'SOSU og pædagogisk assistent uddannelser.',
-    avgRating: 4.8,
-    reviewCount: 18,
+  },
+  {
+    id: '5',
+    name: 'Aalborg Byggeri A/S',
+    slug: 'aalborg-byggeri',
+    logoUrl: '/images/sample-logo.png',
+    description: 'Tømrer, murer og byggeteknisk tegner.',
+  },
+  {
+    id: '6',
+    name: 'Roskilde Handelsacademy',
+    slug: 'roskilde-handelsacademy',
+    logoUrl: '/images/sample-logo-2.png',
+    description: 'Kontor, handel og administration.',
+  },
+  {
+    id: '7',
+    name: 'Esbjerg Maritime Uddannelse',
+    slug: 'esbjerg-maritime-uddannelse',
+    logoUrl: '/images/sample-logo.png',
+    description: 'Skibsmekanik, havnetekniker og logistik.',
+  },
+  {
+    id: '8',
+    name: 'Herning Fødevarecenter',
+    slug: 'herning-fodevarecenter',
+    logoUrl: '/images/sample-logo-2.png',
+    description: 'Bager, kok og fødevareproduktion.',
+  },
+  {
+    id: '9',
+    name: 'Silkeborg IT & Design',
+    slug: 'silkeborg-it-design',
+    logoUrl: '/images/sample-logo.png',
+    description: 'Webudvikling, UX design og digital markedsføring.',
+  },
+  {
+    id: '10',
+    name: 'Vejle Transport & Logistik',
+    slug: 'vejle-transport-logistik',
+    logoUrl: '/images/sample-logo-2.png',
+    description: 'Chauffør, lager og logistikkoordinator.',
   },
   {
     id: '5',
@@ -93,7 +125,7 @@ export const schools: School[] = [
   },
 ]
 
-export const reviews: Review[] = [
+export const reviews = [
   {
     id: 'r1',
     schoolId: '1',

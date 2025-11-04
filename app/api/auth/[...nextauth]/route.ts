@@ -1,3 +1,4 @@
+import { users } from '@/lib/users'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
@@ -10,20 +11,13 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        try {
-          // Her implementerer du din egen login-logik
-          // Dette er kun et eksempel - erstat med din egen API/database-kald
-          if (credentials?.email === 'test@test.dk' && credentials?.password === 'Arn52bvk!') {
-            return {
-              id: '1',
-              email: credentials.email,
-              name: 'Test Bruger',
-            }
-          }
-          return null
-        } catch (error) {
-          return null
+        const user = users.find(
+          (u) => u.email === credentials?.email && u.password === credentials?.password,
+        )
+        if (user) {
+          return { id: user.id, email: user.email, name: user.name }
         }
+        return null
       },
     }),
   ],

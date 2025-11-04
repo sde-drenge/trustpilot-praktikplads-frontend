@@ -78,7 +78,7 @@ export default function Page() {
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <Link href="/glemt-adgangskode" className="text-primary hover:underline">
+            <Link href="log-ind/glemt-adgangskode" className="text-primary hover:underline">
               Glemt kode?
             </Link>
           </div>

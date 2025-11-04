@@ -3,7 +3,6 @@
 import RatingStars from "@/app/components/reviews/RatingStars"
 import { schools } from "@/app/data/mock"
 import { Input } from "@/components/ui/input"
-import type { School } from "@/types"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 
@@ -46,14 +45,12 @@ export function SearchBox() {
         return
       }
       
-      const filtered = schools.filter(school => {
-        const searchableText = [
-          school.name,
-          school.slug,
-          school.description || ""
-        ].join(" ").toLowerCase()
-        
-        return searchableText.includes(lowerQuery)
+      const filtered = schools.filter((school) => {
+        const nameWithoutLaereplads = school.name
+          .replace(/læreplads/gi, "")
+          .trim()
+          .toLowerCase()
+        return nameWithoutLaereplads.includes(lowerQuery)
       })
       
       setResults(filtered)
@@ -66,7 +63,7 @@ export function SearchBox() {
   const handleSelect = (school: School) => {
     setShowResults(false)
     setQuery("")
-    router.push(`/anmeldelser/${school.slug}`)
+    router.push(`/company/${school.slug}`)
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -88,7 +85,7 @@ export function SearchBox() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => hasQuery && hasResults && setShowResults(true)}
-            placeholder="Søg efter en virksomhed eller kategori"
+            placeholder="Søg efter en virksomhed"
             className="h-16 w-full rounded-full border border-gray-200 bg-white px-8 text-lg text-gray-900 placeholder:text-gray-500 focus:border-primary focus:ring-2 focus:ring-primary"
           />
         </form>
@@ -97,7 +94,7 @@ export function SearchBox() {
           <div className="absolute left-0 right-0 mx-auto mt-2 max-w-2xl overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
             <div className="max-h-[400px] overflow-y-auto">
               <div className="border-b px-4 py-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                Lærepladser ({results.length})
+                Virksomheder ({results.length})
               </div>
               {results.map((school) => (
                 <button
@@ -109,7 +106,11 @@ export function SearchBox() {
                     
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold text-gray-900">
-                        {highlightMatch(school.name, query)}
+                        {highlightMatch(
+                          
+                          school.name.replace(/læreplads/gi, "").replace(/\s{2,}/g, " ").trim(),
+                          query
+                        )}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <RatingStars value={school.avgRating ?? 0} />
@@ -117,11 +118,7 @@ export function SearchBox() {
                         <span>·</span>
                         <span>{school.reviewCount ?? 0} anmeldelser</span>
                       </div>
-                      {school.description && (
-                        <p className="truncate text-sm text-gray-500">
-                          {highlightMatch(school.description, query)}
-                        </p>
-                      )}
+                      
                     </div>
                   </div>
                 </button>
@@ -132,7 +129,7 @@ export function SearchBox() {
 
         {showResults && hasQuery && !hasResults && (
           <div className="absolute left-0 right-0 mx-auto mt-2 max-w-2xl rounded-xl border border-gray-200 bg-white p-6 text-center text-gray-500 shadow-lg">
-            Ingen lærepladser fundet for "{query}"
+            Ingen virksomheder fundet for "{query}"
           </div>
         )}
       </div>

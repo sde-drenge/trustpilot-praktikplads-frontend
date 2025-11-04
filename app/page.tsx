@@ -44,11 +44,11 @@ export default function page() {
         />
         <div className="from-primary/70 via-secondary/40 absolute inset-0 z-0 bg-linear-to-b to-transparent" />
 
-        <div className="relative z-10 mx-auto max-w-5xl px-8 py-32 text-center">
+        <div className="relative z-10 mx-auto max-w-5xl px-8 py-20 text-center">
           <h1 className="mx-auto max-w-3xl text-5xl leading-tight font-extrabold tracking-tight text-white">
             Find en virksomhed, du kan stole på
           </h1>
-          <p className="mt-4 text-lg text-white/90">Find, læs og skriv anmeldelser</p>
+          <p className="mt-3 text-lg text-white/90">Find, læs og skriv anmeldelser</p>
         </div>
 
         <SearchBox />
@@ -56,7 +56,7 @@ export default function page() {
       </section>
 
       <section>
-        <div className="mx-auto max-w-5xl px-8 py-8 text-center">
+        <div className="mx-auto max-w-5xl px-8 py-16 text-center">
           <h2 className="text-primary mb-6 text-2xl font-semibold">Læreplads kategorier</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {categories.map((category) => (

@@ -148,5 +148,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    padding-top: 76px; 
   }
 }
