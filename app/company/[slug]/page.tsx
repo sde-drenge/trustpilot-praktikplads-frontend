@@ -1,65 +1,95 @@
 "use client"
-import { getApprovals, getReviewsBySchoolId, getSchoolBySlug } from '@/lib/mockDb'
 import { use, useState } from 'react'
 import Logo from '../../components/companies/logo'
 import RatingStars from '../../components/reviews/RatingStars'
-import ReviewCard from '../../components/reviews/ReviewCard'
 import ReviewForm from '../../components/reviews/ReviewForm'
+
+interface Company {
+  id: string;
+  name: string;
+  category: string;
+  avgRating: number;
+  reviewCount: number;
+  description: string;
+  location: string;
+  imageUrl: string;
+}
+
+// Hardcoded companies data
+const hardcodedCompanies: Record<string, Company> = {
+  'netto-laereplads': {
+    id: 'netto-laereplads',
+    name: 'Netto Læreplads',
+    category: 'Detailhandel',
+    avgRating: 0,
+    reviewCount: 0,
+    description: 'Lær detailhandel hos Danmarks førende discountkæde. Du får erfaring med kassearbejde, varemodtagelse og kundeservice.',
+    location: 'Esbjerg',
+    imageUrl: '/images/companylogo.jpg'
+  },
+  'elgiganten-laereplads': {
+    id: 'elgiganten-laereplads',
+    name: 'Elgiganten Læreplads',
+    category: 'Elektronik & Teknologi',
+    avgRating: 0,
+    reviewCount: 0,
+    description: 'Bliv teknologiekspert hos Nordens største elektronikkæde. Du arbejder med produktrådgivning og teknisk support.',
+    location: 'Aalborg',
+    imageUrl: '/images/companylogo.jpg'
+  }
+};
 
 export default function CompanyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
-  const currentStudentId = 'student-1'
 
-  // Derive fresh data on each render; refreshTrigger forces re-render after submit
-  const company = getSchoolBySlug(slug)
-  const companyReviews = company ? getReviewsBySchoolId(company.id) : []
-  const approvals = company
-    ? getApprovals({ studentId: currentStudentId, schoolId: company.id })
-    : []
-  const canReview = !!company && approvals.length > 0
+  const company = hardcodedCompanies[slug]
+  // Kun Netto er godkendt - Elgiganten er IKKE godkendt
+  const canReview = slug === 'netto-laereplads'
 
-  if (!company) return null
+  if (!company) {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-8">
+        <h1 className="text-2xl font-bold text-gray-900">Virksomhed ikke fundet</h1>
+        <p className="text-gray-600 mt-2">Denne læreplads eksisterer ikke eller er ikke tilgængelig.</p>
+      </div>
+    )
+  }
+  
   const displayName = company.name.replace(/læreplads/gi, '').trim()
 
   const handleReviewSubmitted = () => {
-    // Trigger re-fetch by incrementing the trigger
     setRefreshTrigger(prev => prev + 1)
   }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-8" key={refreshTrigger}>
       <header className="flex items-center gap-4 border-b pb-6">
-        <Logo logoUrl={company.logoUrl} name={displayName} size={80} />
+        <Logo name={displayName} size={80} />
         <div className="flex-1">
-          <h1 className="text-3xl font-bold mb-1">{displayName}</h1>
-          <p className="text-muted-foreground mb-2">{company.description}</p>
+          <h1 className="text-3xl font-bold mb-1 text-gray-900">{displayName}</h1>
+          <p className="text-gray-600 mb-2">{company.description}</p>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1">
-              <RatingStars value={company.avgRating || 0} />
-              <span className="font-semibold">{(company.avgRating || 0).toFixed(1)}</span>
+              <RatingStars value={0} />
+              <span className="font-semibold text-gray-900">0.0</span>
             </div>
-            <span className="text-sm text-muted-foreground">
-              {company.reviewCount || 0} anmeldelser
+            <span className="text-sm text-gray-500">
+              0 anmeldelser
             </span>
           </div>
         </div>
       </header>
 
       <section>
-        <h2 className="mb-4 text-2xl font-semibold">Anmeldelser</h2>
+        <h2 className="mb-4 text-2xl font-semibold text-gray-900">Anmeldelser</h2>
         <div className="space-y-4">
-          {companyReviews.length === 0 && (
-            <p className="text-sm text-muted-foreground">Ingen anmeldelser endnu.</p>
-          )}
-          {companyReviews.map((r) => (
-            <ReviewCard key={r.id} review={r} />
-          ))}
+          <p className="text-sm text-gray-500">Ingen anmeldelser endnu.</p>
         </div>
       </section>
 
       <section className="border-t pt-8">
-        <h2 className="mb-4 text-2xl font-semibold">Skriv en anmeldelse</h2>
+        <h2 className="mb-4 text-2xl font-semibold text-gray-900">Skriv en anmeldelse</h2>
         {canReview ? (
           <div className="mb-4 rounded-lg bg-green-50 border border-green-200 p-4">
             <p className="text-sm text-green-800">
@@ -78,3 +108,4 @@ export default function CompanyPage({ params }: { params: Promise<{ slug: string
     </div>
   )
 }
+

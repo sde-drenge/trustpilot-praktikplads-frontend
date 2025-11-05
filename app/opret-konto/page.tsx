@@ -1,13 +1,14 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export default function Page() {
   const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [schoolId, setSchoolId] = useState("")
@@ -36,14 +37,17 @@ export default function Page() {
     const res = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, schoolId })
+      body: JSON.stringify({ email, name, password, schoolId })
     })
     if (!res.ok) {
-      setError("Bruger findes allerede")
+      const errorText = await res.text()
+      setError(errorText || "Bruger findes allerede")
       return
     }
-    await signIn("credentials", { email, password, redirect: false })
-    router.push("/")
+    toast.success("Konto oprettet!", {
+      description: "Du kan nu logge ind med din nye konto"
+    })
+    router.push("/log-ind")
   }
 
   return (
@@ -59,6 +63,21 @@ export default function Page() {
             <div className="bg-red-50 text-red-600 p-3 rounded text-sm">{error}</div>
           )}
           <div className="space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium">
+                Navn
+              </label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Dit fulde navn"
+                className="mt-1"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+              />
+            </div>
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium">
                 Email

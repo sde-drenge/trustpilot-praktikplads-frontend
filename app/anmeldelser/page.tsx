@@ -33,14 +33,14 @@ export default function Page() {
                 <Card className="hover:shadow transition">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-4">
-                      <Logo logoUrl={s.logoUrl} name={displayName} size={56} />
+                      <Logo name={displayName} size={56} />
                       <div className="flex-1">
-                        <div className="font-medium">{displayName}</div>
-                        <div className="text-muted-foreground text-sm line-clamp-2">{s.description}</div>
+                        <div className="font-medium text-gray-900">{displayName}</div>
+                        <div className="text-gray-600 text-sm line-clamp-2">{s.description}</div>
                         <div className="mt-2 flex items-center gap-2">
                           <RatingStars value={s.avgRating || 0} />
-                          <span className="text-sm font-medium">{(s.avgRating || 0).toFixed(1)}</span>
-                          <span className="text-xs text-muted-foreground">({s.reviewCount || 0} anmeldelser)</span>
+                          <span className="text-sm font-medium text-gray-900">{(s.avgRating || 0).toFixed(1)}</span>
+                          <span className="text-xs text-gray-500">({s.reviewCount || 0} anmeldelser)</span>
                         </div>
                       </div>
                     </div>

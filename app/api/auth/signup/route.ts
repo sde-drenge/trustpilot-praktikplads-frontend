@@ -5,15 +5,17 @@ export async function POST(req: Request) {
   const { email, password, name, schoolId } = await req.json()
 
   const backendSignupUrl = process.env.BACKEND_SIGNUP_URL
+
   if (backendSignupUrl) {
     try {
       const resp = await fetch(backendSignupUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-
         body: JSON.stringify({ email, password, password2: password, name }),
       })
+
       const text = await resp.text()
+
       if (!resp.ok) {
         return new NextResponse(text || 'Signup failed', { status: resp.status })
       }

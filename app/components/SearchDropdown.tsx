@@ -68,7 +68,23 @@ export function SearchBox() {
         return nameWithoutLaereplads.includes(lowerQuery)
       })
       
-      setResults(filtered)
+      // Sorter resultater: først dem der starter med søgeteksten, derefter alfabetisk
+      const sorted = filtered.sort((a, b) => {
+        const aName = a.name.replace(/læreplads/gi, "").trim().toLowerCase()
+        const bName = b.name.replace(/læreplads/gi, "").trim().toLowerCase()
+        
+        const aStarts = aName.startsWith(lowerQuery)
+        const bStarts = bName.startsWith(lowerQuery)
+        
+        // Hvis kun den ene starter med søgeteksten, prioriter den
+        if (aStarts && !bStarts) return -1
+        if (!aStarts && bStarts) return 1
+        
+        // Ellers sorter alfabetisk
+        return aName.localeCompare(bName)
+      })
+      
+      setResults(sorted)
       setShowResults(true)
     }, 200)
     

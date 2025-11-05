@@ -56,13 +56,13 @@ export default function page() {
       </section>
 
       <section>
-        <div className="mx-auto max-w-5xl px-8 py-16 text-center">
+        <div id="kategorier" className="mx-auto max-w-5xl px-8 py-16 text-center">
           <h2 className="text-primary mb-6 text-2xl font-semibold">Læreplads kategorier</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {categories.map((category) => (
               <div
                 key={category.title}
-                className="rounded-lg border border-gray-200 bg-white p-5 text-left transition hover:shadow-md"
+                className="rounded-lg border border-gray-200 bg-white p-5 text-left transition hover:shadow-md hover:border-accent cursor-pointer"
               >
                 <div className="bg-accent mb-3 h-1 w-10 rounded-full" />
                 <h3 className="mb-1 text-lg font-semibold text-gray-900">{category.title}</h3>

@@ -12,6 +12,7 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         const backendLoginUrl = process.env.BACKEND_LOGIN_URL
+
         if (backendLoginUrl && credentials?.email && credentials?.password) {
           try {
             const resp = await fetch(backendLoginUrl, {
@@ -19,7 +20,9 @@ const handler = NextAuth({
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: credentials.email, password: credentials.password }),
             })
+
             if (!resp.ok) return null
+
             let data: unknown = null
             try {
               data = await resp.json()
@@ -47,12 +50,9 @@ const handler = NextAuth({
               (safe.name as string | undefined) ?? (nestedUser?.name as string | undefined) ?? '',
             )
             return { id, email, name }
-          } catch {
-            // Fall back to mock if backend not reachable
-          }
+          } catch {}
         }
 
-        // Mock fallback (in-memory)
         const user = users.find(
           (u) => u.email === credentials?.email && u.password === credentials?.password,
         )
