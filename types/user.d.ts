@@ -1,5 +1,5 @@
 interface User {
-  id: string
+  uuid: string
   name: string
   email: string
   role: Role
@@ -11,5 +11,6 @@ interface User {
 enum Role {
   'student',
   'teacher',
+  'worker',
   'admin',
 }

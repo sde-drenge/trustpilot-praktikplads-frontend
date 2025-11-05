@@ -1,12 +1,12 @@
 "use client"
+import Logo from '@/app/components/companies/logo'
 import RatingStars from '@/app/components/reviews/RatingStars'
 import { Card, CardContent } from '@/components/ui/card'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Page() {
-  const [companies, setCompanies] = useState<School[]>([])
+  const [companies, setCompanies] = useState<Company[]>([])
 
   useEffect(() => {
     async function load() {
@@ -33,11 +33,7 @@ export default function Page() {
                 <Card className="hover:shadow transition">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-4">
-                      {s.logoUrl ? (
-                        <Image src={s.logoUrl} alt={displayName} width={56} height={56} className="rounded" />
-                      ) : (
-                        <div className="bg-muted h-14 w-14 rounded" />
-                      )}
+                      <Logo logoUrl={s.logoUrl} name={displayName} size={56} />
                       <div className="flex-1">
                         <div className="font-medium">{displayName}</div>
                         <div className="text-muted-foreground text-sm line-clamp-2">{s.description}</div>

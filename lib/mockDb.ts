@@ -1,19 +1,6 @@
-import { schools, reviews as seedReviews } from '@/app/data/mock'
-import type { Approval } from '@/types/approval'
-import type { Review } from '@/types/review'
+import { reviews as seedReviews } from '@/app/data/mock'
 
-export const educationalInstitutions = [
-  { id: 'eud-1', name: 'Syddansk Erhvervsskole' },
-  { id: 'eud-2', name: 'ZBC - Zealand Business College' },
-  { id: 'eud-3', name: 'Mercantec' },
-  { id: 'eud-4', name: 'SOSU C' },
-  { id: 'eud-5', name: 'TEC - Teknisk ErhvervsCenter' },
-  { id: 'eud-6', name: 'Campus Vejle' },
-  { id: 'eud-7', name: 'EUC Syd' },
-  { id: 'eud-8', name: 'EUC Nord' },
-  { id: 'eud-9', name: 'EUC Nordvest' },
-  { id: 'eud-10', name: 'Roskilde Tekniske Skole' },
-]
+export const reviews: Review[] = seedReviews as Review[]
 
 export const approvals: Approval[] = [
   {
@@ -25,7 +12,48 @@ export const approvals: Approval[] = [
   },
 ]
 
-export const reviews: Review[] = seedReviews as Review[]
+export const schools: Company[] = [
+  {
+    id: 'eud-1',
+    name: 'Syddansk Erhvervsskole',
+    slug: 'syddansk-erhvervsskole',
+    description: 'Syddansk Erhvervsskole description',
+  },
+  {
+    id: 'eud-2',
+    name: 'ZBC - Zealand Business College',
+    slug: 'zbc-zealand-business-college',
+    description: 'ZBC description',
+  },
+  { id: 'eud-3', name: 'Mercantec', slug: 'mercantec', description: 'Mercantec description' },
+  { id: 'eud-4', name: 'SOSU C', slug: 'sosu-c', description: 'SOSU C description' },
+  {
+    id: 'eud-5',
+    name: 'TEC - Teknisk ErhvervsCenter',
+    slug: 'tec-teknisk-erhvervscenter',
+    description: 'TEC description',
+  },
+  {
+    id: 'eud-6',
+    name: 'Campus Vejle',
+    slug: 'campus-vejle',
+    description: 'Campus Vejle description',
+  },
+  { id: 'eud-7', name: 'EUC Syd', slug: 'euc-syd', description: 'EUC Syd description' },
+  { id: 'eud-8', name: 'EUC Nord', slug: 'euc-nord', description: 'EUC Nord description' },
+  {
+    id: 'eud-9',
+    name: 'EUC Nordvest',
+    slug: 'euc-nordvest',
+    description: 'EUC Nordvest description',
+  },
+  {
+    id: 'eud-10',
+    name: 'Roskilde Tekniske Skole',
+    slug: 'roskilde-tekniske-skole',
+    description: 'Roskilde Tekniske Skole description',
+  },
+]
 
 function initializeSchoolRatings() {
   schools.forEach((school) => {

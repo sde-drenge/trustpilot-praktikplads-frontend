@@ -1,10 +1,10 @@
 "use client"
 
 import RatingStars from "@/app/components/reviews/RatingStars"
-import { schools } from "@/app/data/mock"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
+
 
 function highlightMatch(text: string, query: string) {
   if (!query) return text
@@ -19,7 +19,8 @@ function highlightMatch(text: string, query: string) {
 
 export function SearchBox() {
   const [query, setQuery] = useState("")
-  const [results, setResults] = useState<School[]>([])
+  const [companies, setCompanies] = useState<Company[]>([])
+  const [results, setResults] = useState<Company[]>([])
   const [showResults, setShowResults] = useState(false)
   const router = useRouter()
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -35,6 +36,20 @@ export function SearchBox() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
+ 
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch('/api/companies')
+        const data = await res.json()
+  setCompanies((data?.companies as Company[]) || [])
+      } catch {
+        setCompanies([])
+      }
+    }
+    load()
+  }, [])
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const lowerQuery = query.trim().toLowerCase()
@@ -45,8 +60,8 @@ export function SearchBox() {
         return
       }
       
-      const filtered = schools.filter((school) => {
-        const nameWithoutLaereplads = school.name
+      const filtered = companies.filter((company) => {
+        const nameWithoutLaereplads = company.name
           .replace(/læreplads/gi, "")
           .trim()
           .toLowerCase()
@@ -58,9 +73,9 @@ export function SearchBox() {
     }, 200)
     
     return () => clearTimeout(timer)
-  }, [query])
+  }, [query, companies])
 
-  const handleSelect = (school: School) => {
+  const handleSelect = (school: Company) => {
     setShowResults(false)
     setQuery("")
     router.push(`/company/${school.slug}`)
@@ -114,7 +129,7 @@ export function SearchBox() {
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <RatingStars value={school.avgRating ?? 0} />
-                        <span>{school.avgRating?.toFixed(1) ?? 'N/A'}</span>
+                        <span>{school.avgRating !== undefined ? school.avgRating.toFixed(1) : 'N/A'}</span>
                         <span>·</span>
                         <span>{school.reviewCount ?? 0} anmeldelser</span>
                       </div>

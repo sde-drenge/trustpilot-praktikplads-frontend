@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import RatingStars from './RatingStars'
 
-export default function ReviewCard({ review }: { review: import('@/types/review').Review }) {
+export default function ReviewCard({ review }: { review: Review }) {
   return (
     <Card>
       <CardHeader className="pb-3">

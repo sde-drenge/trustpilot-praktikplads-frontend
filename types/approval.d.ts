@@ -1,4 +1,4 @@
-export interface Approval {
+interface Approval {
   id: string
   studentId: string
   schoolId: string

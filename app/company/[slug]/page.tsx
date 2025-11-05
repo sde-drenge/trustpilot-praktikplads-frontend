@@ -1,7 +1,7 @@
 "use client"
 import { getApprovals, getReviewsBySchoolId, getSchoolBySlug } from '@/lib/mockDb'
-import Image from 'next/image'
 import { use, useState } from 'react'
+import Logo from '../../components/companies/logo'
 import RatingStars from '../../components/reviews/RatingStars'
 import ReviewCard from '../../components/reviews/ReviewCard'
 import ReviewForm from '../../components/reviews/ReviewForm'
@@ -30,15 +30,7 @@ export default function CompanyPage({ params }: { params: Promise<{ slug: string
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-8" key={refreshTrigger}>
       <header className="flex items-center gap-4 border-b pb-6">
-        <div className="h-20 w-20 overflow-hidden rounded-lg bg-muted border">
-          <Image
-            src={company.logoUrl || '/images/sample-logo.png'}
-            alt={displayName}
-            width={80}
-            height={80}
-            className="object-cover"
-          />
-        </div>
+        <Logo logoUrl={company.logoUrl} name={displayName} size={80} />
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-1">{displayName}</h1>
           <p className="text-muted-foreground mb-2">{company.description}</p>

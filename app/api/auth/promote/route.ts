@@ -12,9 +12,13 @@ export async function POST(req: Request) {
   }
 
   try {
+    const authHeader = req.headers.get('authorization')
     const resp = await fetch(backendPromoteUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      },
       body: JSON.stringify({ email }),
     })
 

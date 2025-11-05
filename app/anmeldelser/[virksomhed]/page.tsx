@@ -2,7 +2,7 @@
 import { Star } from 'lucide-react'
 import { use } from 'react'
 
-import { reviews, schools } from '@/app/data/mock'
+import { companies, reviews } from '@/app/data/mock'
 import { Button } from '@/components/ui/button'
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 
 export default function Page({ params }: Props) {
   const { virksomhed } = use(params)
-  const school = schools.find((s) => s.slug === virksomhed)
+  const school = companies.find((s) => s.slug === virksomhed)
   const schoolReviews = reviews.filter((r) => r.schoolId === school?.id)
 
   if (!school) {
