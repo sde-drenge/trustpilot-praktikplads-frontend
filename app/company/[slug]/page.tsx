@@ -1,16 +1,61 @@
 "use client"
 import { canReviewCompany, getCompanyBySlug } from '@/lib/data'
-import { use, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import Logo from '../../components/companies/logo'
 import RatingStars from '../../components/reviews/RatingStars'
+import ReviewCard from '../../components/reviews/ReviewCard'
 import ReviewForm from '../../components/reviews/ReviewForm'
+
+interface DjangoReview {
+  id: string
+  title: string
+  content: string
+  rating: number
+  isApproved: boolean
+  createdAt?: string
+}
 
 export default function CompanyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [loading, setLoading] = useState(true)
 
   const company = getCompanyBySlug(slug)
   const canReview = canReviewCompany(slug)
+
+  useEffect(() => {
+    if (!company) return
+    
+    async function fetchReviews() {
+      setLoading(true)
+      try {
+        const res = await fetch(`/api/reviews?companyId=${company!.id}`)
+        if (res.ok) {
+          const data = await res.json()
+          const djangoReviews: DjangoReview[] = data.reviews || []
+          const mappedReviews: Review[] = djangoReviews
+            .filter(r => r.isApproved)
+            .map(r => ({
+              id: r.id,
+              schoolId: company!.id,
+              rating: r.rating,
+              title: r.title,
+              body: r.content,
+              author: 'Anonym elev',
+              createdAt: r.createdAt || new Date().toISOString(),
+            }))
+          setReviews(mappedReviews)
+        }
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchReviews()
+  }, [company, refreshTrigger])
 
   if (!company) {
     return (
@@ -22,6 +67,10 @@ export default function CompanyPage({ params }: { params: Promise<{ slug: string
   }
   
   const displayName = company.name.replace(/læreplads/gi, '').trim()
+
+  const avgRating = reviews.length > 0
+    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+    : 0
 
   const handleReviewSubmitted = () => {
     setRefreshTrigger(prev => prev + 1)
@@ -36,11 +85,11 @@ export default function CompanyPage({ params }: { params: Promise<{ slug: string
           <p className="text-gray-600 mb-2">{company.description}</p>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1">
-              <RatingStars value={0} />
-              <span className="font-semibold text-gray-900">0.0</span>
+              <RatingStars value={avgRating} />
+              <span className="font-semibold text-gray-900">{avgRating.toFixed(1)}</span>
             </div>
             <span className="text-sm text-gray-500">
-              0 anmeldelser
+              {reviews.length} {reviews.length === 1 ? 'anmeldelse' : 'anmeldelser'}
             </span>
           </div>
         </div>
@@ -49,7 +98,15 @@ export default function CompanyPage({ params }: { params: Promise<{ slug: string
       <section>
         <h2 className="mb-4 text-2xl font-semibold text-gray-900">Anmeldelser</h2>
         <div className="space-y-4">
-          <p className="text-sm text-gray-500">Ingen anmeldelser endnu.</p>
+          {loading ? (
+            <p className="text-sm text-gray-500">Henter anmeldelser...</p>
+          ) : reviews.length === 0 ? (
+            <p className="text-sm text-gray-500">Ingen anmeldelser endnu.</p>
+          ) : (
+            reviews.map(review => (
+              <ReviewCard key={review.id} review={review} />
+            ))
+          )}
         </div>
       </section>
 

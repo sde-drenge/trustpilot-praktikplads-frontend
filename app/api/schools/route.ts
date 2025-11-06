@@ -27,13 +27,15 @@ export async function GET() {
     }
 
     const data = await resp.json()
-    
+
     // Transform Django data til frontend format
-    const schools = Array.isArray(data) ? data.map((school: DjangoSchool) => ({
-      id: school.uuid || school.id,
-      name: school.name,
-      domain: school.domain,
-    })) : (data.schools || [])
+    const schools = Array.isArray(data)
+      ? data.map((school: DjangoSchool) => ({
+          id: school.uuid || school.id,
+          name: school.name,
+          domain: school.domain,
+        }))
+      : data.schools || []
 
     return NextResponse.json({ schools })
   } catch (error) {

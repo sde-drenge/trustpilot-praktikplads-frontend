@@ -1,6 +1,20 @@
 import { users } from '@/lib/users'
-import NextAuth from 'next-auth'
+import type { Session, User } from 'next-auth'
+import type { JWT } from 'next-auth/jwt'
+import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
+
+interface ExtendedUser extends User {
+  accessToken?: string
+}
+
+interface ExtendedSession extends Session {
+  accessToken?: string
+}
+
+interface ExtendedToken extends JWT {
+  accessToken?: string
+}
 
 const handler = NextAuth({
   providers: [
@@ -49,7 +63,8 @@ const handler = NextAuth({
             const name = String(
               (safe.name as string | undefined) ?? (nestedUser?.name as string | undefined) ?? '',
             )
-            return { id, email, name }
+            const accessToken = String(safe.jwtToken ?? '')
+            return { id, email, name, accessToken }
           } catch {}
         }
 
@@ -68,6 +83,18 @@ const handler = NextAuth({
   },
   session: {
     strategy: 'jwt',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        ;(token as ExtendedToken).accessToken = (user as ExtendedUser).accessToken
+      }
+      return token
+    },
+    async session({ session, token }) {
+      ;(session as ExtendedSession).accessToken = (token as ExtendedToken).accessToken
+      return session
+    },
   },
 })
 
