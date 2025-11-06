@@ -1,5 +1,3 @@
-// Centraliseret hardcoded data indtil Django backend er klar
-
 export interface Company {
   id: string
   slug: string
@@ -24,7 +22,6 @@ export interface Review {
   helpful: number
 }
 
-// Kun 2 companies: Netto (godkendt) og Elgiganten (ikke godkendt)
 export const companies: Company[] = [
   {
     id: 'netto-laereplads',
@@ -54,35 +51,29 @@ export const companies: Company[] = [
   },
 ]
 
-// Tom reviews array - bliver fyldt når brugere skriver anmeldelser
 export const reviews: Record<string, Review[]> = {
   'netto-laereplads': [],
   'elgiganten-laereplads': [],
 }
 
-// Helper function til at finde company by slug
 export function getCompanyBySlug(slug: string): Company | undefined {
   return companies.find((c) => c.slug === slug)
 }
 
-// Helper function til at finde company by id
 export function getCompanyById(id: string): Company | undefined {
   return companies.find((c) => c.id === id)
 }
 
-// Helper function til at få reviews for en company
 export function getReviewsByCompanyId(companyId: string): Review[] {
   return reviews[companyId] || []
 }
 
-// Helper function til at tilføje review (kun i memory - forsvinder ved restart)
 export function addReview(companyId: string, review: Review): void {
   if (!reviews[companyId]) {
     reviews[companyId] = []
   }
   reviews[companyId].unshift(review)
 
-  // Opdater review count og rating
   const company = getCompanyById(companyId)
   if (company) {
     company.reviewCount = reviews[companyId].length
@@ -92,10 +83,8 @@ export function addReview(companyId: string, review: Review): void {
   }
 }
 
-// Liste over godkendte companies (kun Netto for ikhvan95@gmail.com)
 export const approvedCompanies = ['netto-laereplads']
 
-// Check om bruger kan anmelde en virksomhed
 export function canReviewCompany(companySlug: string): boolean {
   return approvedCompanies.includes(companySlug)
 }
