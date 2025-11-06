@@ -1,51 +1,16 @@
 "use client"
+import { canReviewCompany, getCompanyBySlug } from '@/lib/data'
 import { use, useState } from 'react'
 import Logo from '../../components/companies/logo'
 import RatingStars from '../../components/reviews/RatingStars'
 import ReviewForm from '../../components/reviews/ReviewForm'
 
-interface Company {
-  id: string;
-  name: string;
-  category: string;
-  avgRating: number;
-  reviewCount: number;
-  description: string;
-  location: string;
-  imageUrl: string;
-}
-
-// Hardcoded companies data
-const hardcodedCompanies: Record<string, Company> = {
-  'netto-laereplads': {
-    id: 'netto-laereplads',
-    name: 'Netto Læreplads',
-    category: 'Detailhandel',
-    avgRating: 0,
-    reviewCount: 0,
-    description: 'Lær detailhandel hos Danmarks førende discountkæde. Du får erfaring med kassearbejde, varemodtagelse og kundeservice.',
-    location: 'Esbjerg',
-    imageUrl: '/images/companylogo.jpg'
-  },
-  'elgiganten-laereplads': {
-    id: 'elgiganten-laereplads',
-    name: 'Elgiganten Læreplads',
-    category: 'Elektronik & Teknologi',
-    avgRating: 0,
-    reviewCount: 0,
-    description: 'Bliv teknologiekspert hos Nordens største elektronikkæde. Du arbejder med produktrådgivning og teknisk support.',
-    location: 'Aalborg',
-    imageUrl: '/images/companylogo.jpg'
-  }
-};
-
 export default function CompanyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
 
-  const company = hardcodedCompanies[slug]
-  // Kun Netto er godkendt - Elgiganten er IKKE godkendt
-  const canReview = slug === 'netto-laereplads'
+  const company = getCompanyBySlug(slug)
+  const canReview = canReviewCompany(slug)
 
   if (!company) {
     return (
