@@ -1,5 +1,4 @@
 "use client"
-import { canReviewCompany, getCompanyBySlug } from '@/lib/data'
 import { use, useEffect, useState } from 'react'
 import Logo from '../../components/companies/logo'
 import RatingStars from '../../components/reviews/RatingStars'
@@ -15,14 +14,53 @@ interface DjangoReview {
   createdAt?: string
 }
 
+interface Company {
+  id: string
+  slug: string
+  name: string
+  description: string
+  category: string
+  location: string
+}
+
 export default function CompanyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
   const [reviews, setReviews] = useState<Review[]>([])
   const [loading, setLoading] = useState(true)
+  const [company, setCompany] = useState<Company | null>(null)
+  const [canReview, setCanReview] = useState(false)
 
-  const company = getCompanyBySlug(slug)
-  const canReview = canReviewCompany(slug)
+  useEffect(() => {
+    async function fetchCompany() {
+      try {
+        const res = await fetch('/api/companies')
+        if (res.ok) {
+          const data = await res.json()
+          const found = data.companies.find((c: Company) => c.slug === slug)
+          setCompany(found || null)
+        }
+      } catch (err) {
+        console.error('Failed to fetch company:', err)
+      }
+    }
+    fetchCompany()
+  }, [slug])
+
+  useEffect(() => {
+    async function checkApproval() {
+      try {
+        const res = await fetch(`/api/approvals?companySlug=${slug}`)
+        if (res.ok) {
+          const data = await res.json()
+          setCanReview(data.canReview || false)
+        }
+      } catch (err) {
+        console.error('Failed to check approval:', err)
+      }
+    }
+    checkApproval()
+  }, [slug])
 
   useEffect(() => {
     if (!company) return

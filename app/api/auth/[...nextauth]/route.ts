@@ -16,7 +16,7 @@ interface ExtendedToken extends JWT {
   accessToken?: string
 }
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -82,20 +82,24 @@ const handler = NextAuth({
     signIn: '/log-ind',
   },
   session: {
-    strategy: 'jwt',
+    strategy: 'jwt' as const,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user }: any) {
       if (user) {
         ;(token as ExtendedToken).accessToken = (user as ExtendedUser).accessToken
       }
       return token
     },
-    async session({ session, token }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: any) {
       ;(session as ExtendedSession).accessToken = (token as ExtendedToken).accessToken
       return session
     },
   },
-})
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }
